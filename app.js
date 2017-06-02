@@ -9,6 +9,39 @@ var lessMiddleware = require('less-middleware');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+
+
+
+
+
+
+
+var admin = require("firebase-admin");
+var serviceAccount = require("./credentials/the-parkist-88b56-firebase-adminsdk-hz0uc-9dee6e448a.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://the-parkist-88b56.firebaseio.com"
+});
+
+var db = admin.database();
+var ref = db.ref("posts");
+
+// Attach an asynchronous callback to read the data at our posts reference
+ref.on("value", function(snapshot) {
+  var databaseOutput = snapshot.val();
+  console.log(databaseOutput);
+});
+
+
+
+
+
+
+
+
+
+
 var app = express();
 
 // view engine setup
@@ -46,3 +79,6 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
+
